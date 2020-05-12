@@ -1,5 +1,5 @@
 # BookBox
-A react native app with the following functionalities:
+## A react native app with the following functionalities:
 - Categories Menu: Menu which displays all the genres of literature.
 - Books Screen: Scrollable menu which displays books for each category.
 - Favourites Screen: Scrollable menu which displays all the "Favourited Books".
