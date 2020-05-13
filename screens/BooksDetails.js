@@ -5,7 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import defaultStyle from '../constants/themeColors';
 import HeaderButton from '../components/headerButton';
 import {useSelector, useDispatch} from 'react-redux';
-import {toggleFavourite} from '../store/actions/BooksAction';
+import {toggleFavourite, toggleComplete} from '../store/actions/BooksAction';
 
 
 const BooksDetails = props => {
@@ -13,22 +13,38 @@ const BooksDetails = props => {
     const bookId = props.navigation.getParam('bookId');
     const availableBooks = useSelector(state => state.books.books);
     const bookDetail = availableBooks.find(book => book.id === bookId);
-    const currentBookisFavourite = useSelector(state => state.books.FavBooks.some(book => book.id === bookId))
+    const currentBookisFavourite = useSelector(state => state.books.FavBooks.some(book => book.id === bookId));
+    const currentBookisCompleted = useSelector(state => state.books.CompleteBooks.some(book => book.id == bookId));
 
     const Dispatch = useDispatch();
-
+//.................................................................................
+// FAVOURITES HANDLER
     const ToggleFavHandler = useCallback(() =>{
         Dispatch(toggleFavourite(bookId))
     }, [Dispatch, bookId]);
 
     useEffect(() => {
-        props.navigation.setParams({toggleFav: ToggleFavHandler})
+        props.navigation.setParams({toggleFav: ToggleFavHandler}) // Provides the functionality to toggle the favourites in the navigation header
     
     },[ToggleFavHandler]);
 
     useEffect(() => {
-        props.navigation.setParams({isFav: currentBookisFavourite});
+        props.navigation.setParams({isFav: currentBookisFavourite}); //To change the icon from empty to filled
     },[currentBookisFavourite]);
+// ........................................................................
+// COMPLETED HANDLER
+    const Dispatch1 = useDispatch();
+    const ToggleCompletionHandler = useCallback(() =>{
+        Dispatch1(toggleComplete(bookId));
+    },[Dispatch, bookId]);
+
+    useEffect(() => {
+        props.navigation.setParams({toggleCompletion: ToggleCompletionHandler})
+    },[ToggleCompletionHandler]);
+
+    useEffect(() => {
+        props.navigation.setParams({isCompleted: currentBookisCompleted});
+    },[currentBookisCompleted]);
    
     return(
         <ScrollView style={styles.screen}>
@@ -52,13 +68,20 @@ BooksDetails.navigationOptions = navigationData => {
     const bookDetail = BOOKS.find(book => book.id === bookId);
     const toggleFavourites = navigationData.navigation.getParam('toggleFav');
     const isFavourite = navigationData.navigation.getParam('isFav');
+    const isnowCompleted = navigationData.navigation.getParam('isCompleted');
+    const toggleCompleted = navigationData.navigation.getParam('toggleCompletion');
     //const bookTitle = navigationData.navigation.getParam('bookTitle');
     console.log(navigationData);
     return {
-        headerTitle: " ",
+        
         headerRight: () =><HeaderButtons HeaderButtonComponent = {HeaderButton}>
             <Item title='Favourite' iconName={isFavourite ? 'ios-heart': 'ios-heart-empty'} onPress = {toggleFavourites}/>
         </HeaderButtons>,
+         headerTitle: " ",
+         headerTitle: () =><HeaderButtons HeaderButtonComponent = {HeaderButton}>
+             <Item title='Favourite' iconName={isnowCompleted ? 'ios-checkmark-circle': 'ios-checkmark-circle-outline'} onPress = {toggleCompleted}/>
+         </HeaderButtons>,
+          
     };
       
     

@@ -3,7 +3,9 @@ import {View, Text, StyleSheet, Switch, ScrollView, Platform } from 'react-nativ
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/headerButton';
 import defaultStyles from '../constants/themeColors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {applyFilters} from '../store/actions/BooksAction';
+
 
 
 const SwitchComponent = props =>{
@@ -35,6 +37,7 @@ const FilterScreen = props => {
     const [isBiography, setisBiography] = useState(false);
     const [isSelfHelp, setisselfHelp] = useState(false);
 
+    const Dispatch = useDispatch();
     const saveFilters = useCallback(() =>{
         const appliedFilters = {
         Fiction : isFiction ,
@@ -48,8 +51,9 @@ const FilterScreen = props => {
         Biography : isBiography,
         SelfHelp : isSelfHelp,
         };
-        console.log(appliedFilters)
-    }, [isFiction, isClassic, isCrime, isHorror, isHumour, isMythology,isBiography, isSelfHelp ]);
+        Dispatch(applyFilters(appliedFilters));
+        console.log(applyFilters(appliedFilters));
+    }, [isFiction, isClassic, isCrime, isHorror, isHumour, isMythology,isBiography, isSelfHelp, Dispatch ]);
 
     useEffect(() =>{
         navigation.setParams({save: saveFilters});

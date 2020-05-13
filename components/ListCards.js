@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         color: defaultStyles.iosAccent
     },
     text:{
-        fontSize:Platform.OS === 'ios' ? 16 : 14,
+        fontSize:Platform.OS === 'ios' ? 1 : 14,
     },
 
 });

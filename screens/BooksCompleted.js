@@ -4,11 +4,21 @@ import ListCard from '../components/ListCards';
 import { BOOKS } from '../data/dummy-data';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/headerButton';
+import {TOGGLE_COMPLETE} from '../store/actions/BooksAction';
+import { useSelector } from 'react-redux';
+import defaultStyles from '../constants/themeColors';
 
 
 const BooksCompleted = props => {
-    const BooksCompleted = BOOKS.filter(book => book.id === 'b3' || book.id === 'b1');
-    console.log(BooksCompleted)
+    const BooksCompleted = useSelector(state => state.books.CompleteBooks);
+    if (BooksCompleted.length === 0 || !BooksCompleted){
+        return (
+            <View style = {styles.screen}>
+                <Text style = {styles.text}>No Books Completed, yet!!</Text>
+            </View>
+        );
+    }
+    
     return  <ListCard listData = {BooksCompleted} navigation = {props.navigation}/>
 };
 
@@ -30,6 +40,18 @@ BooksCompleted.navigationOptions = navData => {
 }
 
 
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    text:{
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: defaultStyles.iosAccent,
+    },
+});
 
 
 export default BooksCompleted

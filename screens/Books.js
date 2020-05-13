@@ -14,7 +14,7 @@ const BooksScreen = props => {
     const catid = props.navigation.getParam('categoryId');
     const availableBooks = useSelector(state => state.books.filteredBooks);
     const displayedBooks = availableBooks.filter(book => book.categoryIds.indexOf(catid) >= 0);
-  
+    
    return (
        
        <ListCard listData = {displayedBooks} navigation={props.navigation}/>
@@ -27,7 +27,7 @@ BooksScreen.navigationOptions = navigationData => {
     const catId = navigationData.navigation.getParam('categoryId');
     const SelectedCategory = CATEGORIES.find(cat => cat.id === catId);
     
-    console.log(navigationData);
+    
     return {
         headerTitle: SelectedCategory.title,
         
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
   
     text:{
-        fontSize:Platform.OS === 'ios' ? 18 : 15,
+        fontSize:Platform.OS === 'ios' ? 20 : 15,
         fontWeight: Platform.OS === 'ios' ? '500' : 'bold',
         fontFamily:Platform.OS === 'ios' ? 'Arial' : 'sans-serif',
         color: Platform.OS === 'android' ? defaultStyle.iosAccent : defaultStyle.iosAccent,
